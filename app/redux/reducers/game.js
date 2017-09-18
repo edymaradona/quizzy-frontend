@@ -5,8 +5,11 @@ import {
   REMOVE_ALL_QUESTIONS,
   CHANGE_ANSWER,
   CHANGE_IMAGE,
-  CHANGE_SELECTED_ANSWER
-} from "../constants/game";
+  CHANGE_SELECTED_ANSWER,
+  MOVE_QUESTION
+} from '../constants/game';
+
+import 'array.prototype.move';
 
 const initialState = {
   questions: [],
@@ -32,7 +35,7 @@ export default (state = initialState, action) => {
             }
         })
 
-      }  
+      }
     case CHANGE_QUESTION_NAME:
       return {
         ...state,
@@ -68,6 +71,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         questions: newQuestions
+      };
+    case MOVE_QUESTION:
+      let updatedQuestions = state.questions
+      updatedQuestions.move(action.index, action.atIndex);
+      console.log(updatedQuestions);
+      return {
+        ...state,
+        questions: updatedQuestions
       };
     default:
       return state;

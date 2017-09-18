@@ -5,6 +5,7 @@ import Questions from '../components/questions';
 import Question from '../components/question';
 import { connect } from 'react-redux';
 import empty from '../../assets/images/empty.svg';
+
 const mapStateToProps = (state) => {
   return {
     image: state.gameData.image,
@@ -16,7 +17,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addQuestion: (question) => dispatch(addQuestion(question)),
     removeAllQuestions: () => dispatch(removeAllQuestions()),
-    changeImage: (image) => dispatch(changeImage(image))
+    changeImage: (image) => dispatch(changeImage(image)),
+    changeQuestionName: (newQuestion, index) => dispatch(changeQuestionName(newQuestion, index)),
   };
 };
 
@@ -37,14 +39,13 @@ class CreateGame extends React.PureComponent {
 
 
   }
+
   componentWillMount() {
-    // remove all questions
     this.props.removeAllQuestions();
     this.props.addQuestion(question(0));
   }
 
   componentWillUnmount() {
-    // remove all questions
     this.props.removeAllQuestions();
   }
 
@@ -60,9 +61,9 @@ class CreateGame extends React.PureComponent {
     reader.onloadend = (e) => this.props.changeImage(reader.result);
 
   }
+
   render() {
-    let questions = this.props.questions.map( (question, index) =>
-      <Question key={ index } id={ index } obj={ question } />);
+    let questions = this.props.questions;
     return (
       <div>
         <h2> MAKE UP YOUR OWN GAME </h2>
@@ -82,9 +83,9 @@ class CreateGame extends React.PureComponent {
           <option value='videogames'>Videogames</option>
         </select> <br/>
         Questions <br/>
-        <Questions>
-          { questions }
-        </Questions>
+        <Questions
+          questions={ questions }
+        />
         <button onClick={ this.onAddQuestion }>Add...</button> <br/>
         <button>Done</button>  <button>Cancel</button> <br/>
       </div>
@@ -92,4 +93,4 @@ class CreateGame extends React.PureComponent {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CreateGame);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateGame);

@@ -5,7 +5,8 @@ import {
   CHANGE_ANSWER,
   CHANGE_IMAGE,
   CHANGE_SELECTED_ANSWER,
-  CHANGE_QUESTION_DIFFICULTY
+  CHANGE_QUESTION_DIFFICULTY,
+  MOVE_QUESTION
 } from '../constants/game';
 export const changeImage = (image) => {
   return {
@@ -18,7 +19,7 @@ export const changeImage = (image) => {
 
 export const changeQuestionDifficulty = (difficulty, index) => {
   return {
-      type: CHANGE_QUESTION_DIFFICULTY, 
+      type: CHANGE_QUESTION_DIFFICULTY,
       difficulty,
       index
   }
@@ -62,3 +63,12 @@ export const changeSelectedAnswer = (question, answer) => {
     answer
   }
 }
+
+export const moveQuestion = (question, index, atIndex) => {
+  return {
+    type: MOVE_QUESTION,
+    question,
+    index,
+    atIndex
+  }
+};
