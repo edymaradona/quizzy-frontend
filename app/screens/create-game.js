@@ -83,9 +83,7 @@ class CreateGame extends React.PureComponent {
           <option value='videogames'>Videogames</option>
         </select> <br/>
         Questions <br/>
-        <Questions
-          questions={ questions }
-        />
+        <Questions/>
         <button onClick={ this.onAddQuestion }>Add...</button> <br/>
         <button>Done</button>  <button>Cancel</button> <br/>
       </div>

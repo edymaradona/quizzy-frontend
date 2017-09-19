@@ -13,7 +13,9 @@ import 'array.prototype.move';
 
 const initialState = {
   questions: [],
-  image: null
+  image: null,
+  index: null,
+  atIndex: null
 };
 
 export default (state = initialState, action) => {
@@ -73,12 +75,15 @@ export default (state = initialState, action) => {
         questions: newQuestions
       };
     case MOVE_QUESTION:
-      let updatedQuestions = state.questions
+      let updatedQuestions = state.questions.map(q => JSON.parse(JSON.stringify(q)));
       updatedQuestions.move(action.index, action.atIndex);
       console.log(updatedQuestions);
+
       return {
         ...state,
-        questions: updatedQuestions
+        questions: updatedQuestions,
+        index: action.atIndex === state.index ? state.index : action.atIndex,
+        atIndex: action.index === state.atIndex ? state.atIndex : action.index,
       };
     default:
       return state;

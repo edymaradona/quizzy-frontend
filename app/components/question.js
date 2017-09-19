@@ -14,8 +14,12 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-const mapStateToProps = (state) => {
-    return {  };
+const mapStateToProps = (state, props) => {
+    return {
+      self: state.gameData.questions[props.id],
+      index: state.gameData.index,
+      atIndex: state.gameData.atIndex,
+    };
 };
 
 const questionSource = {
@@ -36,6 +40,14 @@ const questionSource = {
   },
 };
 
+const style = {
+  border: '1px dashed gray',
+  padding: '0.5rem 1rem',
+  marginBottom: '.5rem',
+  backgroundColor: 'white',
+  cursor: 'move',
+};
+
 const questionTarget = {
   canDrop() {
     return false;
@@ -45,7 +57,7 @@ const questionTarget = {
     const { id: draggedId } = monitor.getItem();
     const { id: overId } = props;
 
-    if (draggedId !== overId) {
+    if (props.index == props.atIndex && draggedId !== overId) {
       const { index: overIndex } = overId;
       props.moveQuestion(draggedId, overIndex);
     }
@@ -85,7 +97,7 @@ class Question extends React.PureComponent {
   };
 
   render() {
-    let question = this.props.obj;
+    let question = this.props.self;
     let id = this.props.id;
     let answers = [];
     const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
@@ -102,8 +114,8 @@ class Question extends React.PureComponent {
     });
 
     return connectDragSource(connectDropTarget(
-      <li>
-        <input type='text' onChange={ this.changeQuestion } defaultValue={ question.text } />
+      <div style={{...style}}>
+        <input type='text' onChange={ this.changeQuestion } value={ question.text } />
         Difficulty
         <select onChange={ this.changeDifficulty }>
           <option value='easy'>Easy</option>
@@ -113,7 +125,7 @@ class Question extends React.PureComponent {
         <ul>
           { answers }
         </ul>
-      </li>
+      </div>
     ));
   }
 }

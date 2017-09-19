@@ -12,6 +12,11 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
+const mapStateToProps = (state) => {
+  return {
+    questionsState: state.gameData.questions
+  };
+};
 const questionTarget = {
   drop() {
   },
@@ -33,7 +38,7 @@ class Questions extends React.PureComponent {
   };
 
   moveQuestion(id, atIndex) {
-    let question = this.props.questions[id];
+    let question = this.props.questionsState[id];
     this.props.moveQuestion(question, id, atIndex);
   }
 
@@ -42,7 +47,7 @@ class Questions extends React.PureComponent {
 
     return connectDropTarget(
       <div>
-        { this.props.questions.map((question, index) => (
+        { this.props.questionsState.map((question, index) => (
           <Question
             key={ index }
             id={ index }
@@ -55,4 +60,4 @@ class Questions extends React.PureComponent {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
